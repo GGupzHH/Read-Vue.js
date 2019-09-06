@@ -5,34 +5,40 @@
  */
 (function (global, factory) {
 
-  console.log(global)
+  // console.log(global)
   /* 
     global 自调用函数传入的this  
       * node    {}
       * Browser Window
   */
 
-  console.log(typeof exports) 
+  // console.log(typeof exports) 
   /* 
     exports
       * node    {}
       * Browser ReferenceError undefined
   */
 
-  console.log(typeof module)
+  // console.log(typeof module)
   /* 
     module
       * node    Module-Object
       * Browser ReferenceError undefined
   */
 
-  console.log(typeof module.exports)
+  // console.log(typeof module.exports)
   /* 
     module.exports
       * node      {}
       * Browser   ReferenceError undefined
   */
 
+  // console.log(define)
+  /* 
+    define
+      * node    ReferenceError undefined
+      * Browser ReferenceError undefined
+  */
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Vue = factory());
