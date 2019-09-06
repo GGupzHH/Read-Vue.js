@@ -4,7 +4,36 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+
+  console.log(global)
+  /* 
+    global 自调用函数传入的this  
+      * node    {}
+      * Browser Window
+  */
+
+  console.log(typeof exports) 
+  /* 
+    exports
+      * node    {}
+      * Browser ReferenceError undefined
+  */
+
+  console.log(typeof module)
+  /* 
+    module
+      * node    Module-Object
+      * Browser ReferenceError undefined
+  */
+
+  console.log(typeof module.exports)
+  /* 
+    module.exports
+      * node      {}
+      * Browser   ReferenceError undefined
+  */
+
+typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Vue = factory());
 }(this, function () { 'use strict';
