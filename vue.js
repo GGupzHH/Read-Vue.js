@@ -44,30 +44,46 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   (global = global || self, global.Vue = factory());
 }(this, function () { 'use strict';
 
-  /*  */
+  /* 
+    freeze 锁定一个对象 对象不能改变 不能增加新的属性
+  */
 
   var emptyObject = Object.freeze({});
 
   // These helpers produce better VM code in JS engines due to their
   // explicitness and function inlining.
+
+  /* 
+    判断参数是否为 undefined 和 null
+  */
   function isUndef (v) {
     return v === undefined || v === null
   }
 
+  /* 
+    判断参数不等于undefined 和 null
+  */
   function isDef (v) {
     return v !== undefined && v !== null
   }
 
+  /* 
+    判断参数是否为 true
+  */
   function isTrue (v) {
     return v === true
   }
 
+  /* 
+    判断参数是否为 false
+  */
   function isFalse (v) {
     return v === false
   }
 
   /**
    * Check if value is primitive.
+   * 判断参数是否是初始类型的值
    */
   function isPrimitive (value) {
     return (
@@ -83,6 +99,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    * Quick object check - this is primarily used to tell
    * Objects from primitive values when we know the value
    * is a JSON-compliant type.
+   * 去判断是否为(数组，对象) （数组和对象的typeof类型都是object）
    */
   function isObject (obj) {
     return obj !== null && typeof obj === 'object'
@@ -90,9 +107,15 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
 
   /**
    * Get the raw type string of a value, e.g., [object Object].
+   * 二次封装toString方法   严格类型判断
    */
   var _toString = Object.prototype.toString;
 
+  /**
+   * Object.prototype.toString.call() 严格类型判断 
+   * 类型[object, Obecjt]
+   * 截取从第 8 个开始  到最后一个  Object 这样就可以获得严格类型
+   */   
   function toRawType (value) {
     return _toString.call(value).slice(8, -1)
   }
@@ -100,23 +123,33 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   /**
    * Strict object type check. Only returns true
    * for plain JavaScript objects.
+   * 使用严格类型判断是否为对象 {}
    */
   function isPlainObject (obj) {
     return _toString.call(obj) === '[object Object]'
   }
-
+  /**
+   * 判断是否为正则
+   */
   function isRegExp (v) {
     return _toString.call(v) === '[object RegExp]'
   }
 
   /**
    * Check if val is a valid array index.
+   * parseFloat: 解析字符串  返回一个浮点型
+   * Math.floot: 将浮点数取整 
+   * isFinite: 函数用来判断被传入的参数值是否为一个有限数值 （NaN => false）
+   * 这个函数去过滤非整数  因为数组索引可能传入非整数的参数 非整数返回false
    */
   function isValidArrayIndex (val) {
     var n = parseFloat(String(val));
     return n >= 0 && Math.floor(n) === n && isFinite(val)
   }
-
+  /**
+   * 判断函数是否为promise 
+   * 只有promise有.then 和 .catch 方法
+   */
   function isPromise (val) {
     return (
       isDef(val) &&
@@ -124,24 +157,33 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       typeof val.catch === 'function'
     )
   }
-
   /**
    * Convert a value to a string that is actually rendered.
+   * 将数值转换为字符串
    */
   function toString (val) {
     return val == null
-      ? ''
+    ? ''
+      /** 
+       * isPlainObject ---> 128 判断是否为对象 Object
+       * val.toString === _toString 因为传入的是对象  对象有toString 方法   而上面定义的_toString 就是对象的toString方法
+       * 如果传入的是数组或对象 就使用JSON.stringify转换为字符串（数据， 回调函数<函数会将数据每一项传入>, 转换为字符串的缩进）
+       */ 
       : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
-        ? JSON.stringify(val, null, 2)
-        : String(val)
-  }
-
+      ? JSON.stringify(val, null, 2)
+      : String(val)
+    }
+    
+  /* ----------------------------------------------------------------------------------------------------------------------------- */
   /**
    * Convert an input value to a number for persistence.
+   * 将传入的值转换为数字进行持久换
    * If the conversion fails, return original string.
+   * 如果转换失败泽返回传入的值
    */
   function toNumber (val) {
     var n = parseFloat(val);
+    // 判断是否为NaN  如果是则直接返回   如果不是则返回转换之后的数值
     return isNaN(n) ? val : n
   }
 
