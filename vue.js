@@ -243,12 +243,12 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    * 检查对象是否具有属性
    *  Object.prototype.hasOwnProperty 判断一个对象自身的属性是否具有指定的属性值
    */
-  /* ----------------------------------------------------------------------------------------------------------------------------- */
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   function hasOwn (obj, key) {
     return hasOwnProperty.call(obj, key)
   }
-
+  
+  /* ----------------------------------------------------------------------------------------------------------------------------- */
   /**
    * Create a cached version of a pure function.
    */
