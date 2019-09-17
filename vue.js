@@ -226,8 +226,9 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   
   /**
    * Remove an item from an array.
+   * 删除数组指定索引的值
    */
-  /* ----------------------------------------------------------------------------------------------------------------------------- */
+  // 判断indexOf是否找到对应的item  如果没有找到则返回-1 这里判断没有使用=== 而是使用 > 号
   function remove (arr, item) {
     if (arr.length) {
       var index = arr.indexOf(item);
@@ -236,10 +237,13 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       }
     }
   }
-
+  
   /**
    * Check whether an object has the property.
+   * 检查对象是否具有属性
+   *  Object.prototype.hasOwnProperty 判断一个对象自身的属性是否具有指定的属性值
    */
+  /* ----------------------------------------------------------------------------------------------------------------------------- */
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   function hasOwn (obj, key) {
     return hasOwnProperty.call(obj, key)
