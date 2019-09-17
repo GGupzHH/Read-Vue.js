@@ -174,9 +174,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       : String(val)
     }
     
-  /* ----------------------------------------------------------------------------------------------------------------------------- */
-  /**
-   * Convert an input value to a number for persistence.
+    /**
+     * Convert an input value to a number for persistence.
    * 将传入的值转换为数字进行持久换
    * If the conversion fails, return original string.
    * 如果转换失败泽返回传入的值
@@ -186,38 +185,49 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // 判断是否为NaN  如果是则直接返回   如果不是则返回转换之后的数值
     return isNaN(n) ? val : n
   }
-
+  
   /**
    * Make a map and return a function for checking if a key
    * is in that map.
+   * 
+   * 一个工厂函数 将传入的字符串切割之后保存到对应的map字典中 
+   * 利用闭包将变量保存到内存中， 同时使用闭包将当前调用创建的map保留
+   * 未被垃圾回收
    */
   function makeMap (
     str,
     expectsLowerCase
-  ) {
+    ) {
+    // 创建一个新对象
     var map = Object.create(null);
+    // 将传入的字符串按 , 分割
     var list = str.split(',');
     for (var i = 0; i < list.length; i++) {
+      // 遍历分割好的数组  将数组每一项保存到上面创建的对象 并赋值为true
       map[list[i]] = true;
     }
     return expectsLowerCase
-      ? function (val) { return map[val.toLowerCase()]; }
-      : function (val) { return map[val]; }
+    // toLowerCase 将字符串转换为小写
+    ? function (val) { return map[val.toLowerCase()]; }
+    : function (val) { return map[val]; }
   }
-
+  
   /**
    * Check if a tag is a built-in tag.
    */
   var isBuiltInTag = makeMap('slot,component', true);
-
+  // 接收上面makeMap函数的返回值 获取makeMap函数内部的map对象的值
+  
   /**
    * Check if an attribute is a reserved attribute.
    */
   var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
-
+  // 接收上面makeMap函数的返回值 获取makeMap函数内部的map对象的值
+  
   /**
    * Remove an item from an array.
    */
+  /* ----------------------------------------------------------------------------------------------------------------------------- */
   function remove (arr, item) {
     if (arr.length) {
       var index = arr.indexOf(item);
