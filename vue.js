@@ -251,11 +251,20 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   /* ----------------------------------------------------------------------------------------------------------------------------- */
   /**
    * Create a cached version of a pure function.
+   * 返回一个 cachedFn
+   * cachedFn 作用
+   * 
    */
   function cached (fn) {
+    // 创建一个空对象  存储每次新进来的值和修改值   
+    // 传入的  fn  是一个过滤函数 将要保存的值进行修改 修改之后保存到cache
     var cache = Object.create(null);
     return (function cachedFn (str) {
+      // 拿到cache中 str 保存的值
       var hit = cache[str];
+      // 判断str 是否存在  如果存在就返回对应的 str 的值
+      // 如果不存在就是undefined   不存在就去
+
       return hit || (cache[str] = fn(str))
     })
   }
@@ -263,8 +272,16 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   /**
    * Camelize a hyphen-delimited string.
    */
+  // /-(\w)g/  全局匹配   -   
+  // \w 匹配字母数字下划线 
   var camelizeRE = /-(\w)/g;
   var camelize = cached(function (str) {
+    // replace 通过正则去匹配字符串中的  -  如果没有匹配到则不会进入到replace的回调函数中
+    // toUpperCase 把字符串转换为大写
+    // 函数作用  ： 将不是驼峰命名的字符串转换为驼峰命名法  如果最后一个字符是 - 则不会转换最后一个 
+    // _ 参数一 ： 匹配到的整体
+    // c 参数二 ： 匹配到的子表达式
+    // return   返回要替换的内容
     return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
   });
 
