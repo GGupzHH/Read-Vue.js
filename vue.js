@@ -50,37 +50,45 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
 
   var emptyObject = Object.freeze({});
 
+  /*********************************************************** * 
+  *                       type Judge                           *
+  *************************************************************/
+
   // These helpers produce better VM code in JS engines due to their
   // explicitness and function inlining.
-
+  /* ---------------------------------------------------- typeJudge === undefined || null ------------------------------------------------------------ */
   /* 
-    判断参数是否为 undefined 和 null
+  判断参数是否为 undefined 和 null
   */
   function isUndef (v) {
     return v === undefined || v === null
   }
 
+  /* ---------------------------------------------------- typeJudge !== undefined || null ------------------------------------------------------------ */
   /* 
-    判断参数不等于undefined 和 null
+  判断参数不等于undefined 和 null
   */
-  function isDef (v) {
+ function isDef (v) {
     return v !== undefined && v !== null
   }
-
+  
+  /* ---------------------------------------------------- typeJudge === true ------------------------------------------------------------ */
   /* 
-    判断参数是否为 true
+  判断参数是否为 true
   */
-  function isTrue (v) {
-    return v === true
+ function isTrue (v) {
+   return v === true
   }
-
+  
+  /* ---------------------------------------------------- typeJudge === false ------------------------------------------------------------ */
   /* 
-    判断参数是否为 false
+  判断参数是否为 false
   */
   function isFalse (v) {
     return v === false
   }
-
+  
+  /* ---------------------------------------------------- typeJudge === BasicType  ------------------------------------------------------------ */
   /**
    * Check if value is primitive.
    * 判断参数是否是初始类型的值
@@ -95,6 +103,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     )
   }
 
+  /* ---------------------------------------------------- typeJudge === referenceType ------------------------------------------------------------ */
   /**
    * Quick object check - this is primarily used to tell
    * Objects from primitive values when we know the value
@@ -104,13 +113,13 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   function isObject (obj) {
     return obj !== null && typeof obj === 'object'
   }
-
+  
   /**
    * Get the raw type string of a value, e.g., [object Object].
    * 二次封装toString方法   严格类型判断
    */
   var _toString = Object.prototype.toString;
-
+  
   /**
    * Object.prototype.toString.call() 严格类型判断 
    * 类型[object, Obecjt]
@@ -119,7 +128,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   function toRawType (value) {
     return _toString.call(value).slice(8, -1)
   }
-
+  
+  /* ---------------------------------------------------- typeJudge === Object ------------------------------------------------------------ */
   /**
    * Strict object type check. Only returns true
    * for plain JavaScript objects.
@@ -128,13 +138,15 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   function isPlainObject (obj) {
     return _toString.call(obj) === '[object Object]'
   }
+  /* ---------------------------------------------------- typeJudge === RegExp ------------------------------------------------------------ */
   /**
    * 判断是否为正则
    */
   function isRegExp (v) {
     return _toString.call(v) === '[object RegExp]'
   }
-
+  
+  /* ---------------------------------------------------- typeJudge Array index === Number ------------------------------------------------------------ */
   /**
    * Check if val is a valid array index.
    * parseFloat: 解析字符串  返回一个浮点型
@@ -146,6 +158,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     var n = parseFloat(String(val));
     return n >= 0 && Math.floor(n) === n && isFinite(val)
   }
+  /* ---------------------------------------------------- typeJudge Promise ------------------------------------------------------------ */
   /**
    * 判断函数是否为promise 
    * 只有promise有.then 和 .catch 方法
@@ -155,11 +168,18 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       isDef(val) &&
       typeof val.then === 'function' &&
       typeof val.catch === 'function'
-    )
-  }
+      )
+    }
+    
+  /*********************************************************** * 
+  *                       Type Conversion                      *
+  *************************************************************/
+ 
+ 
+  /* ---------------------------------------------------- 将传入的非字符串类型参数转换成字符串 ------------------------------------------------------------ */
   /**
    * Convert a value to a string that is actually rendered.
-   * 将数值转换为字符串
+   * 将传入的参数转换为字符串
    */
   function toString (val) {
     return val == null
@@ -174,8 +194,9 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       : String(val)
     }
     
-    /**
-     * Convert an input value to a number for persistence.
+  /* ---------------------------------------------------- 将传入的非数字类型参数转换成数字 ------------------------------------------------------------ */
+  /**
+   * Convert an input value to a number for persistence.
    * 将传入的值转换为数字进行持久换
    * If the conversion fails, return original string.
    * 如果转换失败泽返回传入的值
@@ -248,7 +269,6 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     return hasOwnProperty.call(obj, key)
   }
   
-  /* ----------------------------------------------------------------------------------------------------------------------------- */
   /**
    * Create a cached version of a pure function.
    * 返回一个 cachedFn
@@ -284,7 +304,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // return   返回要替换的内容
     return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
   });
-
+  
+  /* ----------------------------------------------------------------------------------------------------------------------------- */
   /**
    * Capitalize a string.
    */
