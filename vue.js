@@ -327,12 +327,15 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // charAt 返回指定索引的字符串  之后截取字符串后面的凭借
     return str.charAt(0).toUpperCase() + str.slice(1)
   });
-  
+  /* ----------------------------------------------------- 将驼峰改为连字符表示 - 存入cache ------------------------------------------------------------------------ */
   /**
    * Hyphenate a camelCase string.
+   * 将驼峰命名改为连接符命名
    */
   var hyphenateRE = /\B([A-Z])/g;
   var hyphenate = cached(function (str) {
+    //  $1 与正则相匹配的第一个文本   然后在其前面添加  - 
+    // toLowerCase 转小写
     return str.replace(hyphenateRE, '-$1').toLowerCase()
   });
 
