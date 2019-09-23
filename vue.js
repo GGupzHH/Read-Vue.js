@@ -227,6 +227,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       // 遍历分割好的数组  将数组每一项保存到上面创建的对象 并赋值为true
       map[list[i]] = true;
     }
+    // 返回一个函数   函数在以后调用的时候将map存的值返回  
+    // 通过 expectsLowerCase 的值去执行不同的操作  返回不同的字符串
     return expectsLowerCase
     // toLowerCase 将字符串转换为小写
     ? function (val) { return map[val.toLowerCase()]; }
