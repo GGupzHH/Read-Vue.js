@@ -206,7 +206,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // 判断是否为NaN  如果是则直接返回   如果不是则返回转换之后的数值
     return isNaN(n) ? val : n
   }
-  
+  /* ---------------------------------------------------- 一个存储命名的全局变量Map  ------------------------------------------------------------ */
   /**
    * Make a map and return a function for checking if a key
    * is in that map.
@@ -235,18 +235,24 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     : function (val) { return map[val]; }
   }
   
+  /* ---------------------------------------------------- 将内置标记存入Map ------------------------------------------------------------ */
   /**
    * Check if a tag is a built-in tag.
+   * 检查是否为内置标记
+   * 返回的函数将Map存入的值暴露在外
    */
   var isBuiltInTag = makeMap('slot,component', true);
   // 接收上面makeMap函数的返回值 获取makeMap函数内部的map对象的值
   
+  /* ---------------------------------------------------- 将属性存入Map ------------------------------------------------------------ */
   /**
    * Check if an attribute is a reserved attribute.
+   * 检查属性是否为保留属性
    */
   var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
   // 接收上面makeMap函数的返回值 获取makeMap函数内部的map对象的值
   
+  /* ---------------------------------------------------- 删除数组指定索引的元素 ------------------------------------------------------------ */
   /**
    * Remove an item from an array.
    * 删除数组指定索引的值
@@ -261,6 +267,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     }
   }
   
+  /* ---------------------------------------------------- 缩写hosOwnProperty 判断对象中是否存在指定属性 ------------------------------------------------------------ */
   /**
    * Check whether an object has the property.
    * 检查对象是否具有属性
@@ -271,6 +278,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     return hasOwnProperty.call(obj, key)
   }
   
+  /* ---------------------------------------------------- cache 全局创建一个命名字典  将命名格式化之后存入 ------------------------------------------------------------ */
   /**
    * Create a cached version of a pure function.
    * 返回一个 cachedFn
@@ -286,13 +294,15 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       var hit = cache[str];
       // 判断str 是否存在  如果存在就返回对应的 str 的值
       // 如果不存在就是undefined   不存在就去
-
+      // 利用 || 运算符的规则  如果cache中存在该变量   就不变 
+      // 如果不存在 就使用传入的回调将字符串按指定逻辑修改之后存入cache
       return hit || (cache[str] = fn(str))
     })
   }
-
+  /* ---------------------------------------------------- 将传入的字符串按照驼峰命名法存入cache ------------------------------------------------------------ */
   /**
-   * Camelize a hyphen-delimited string.
+   * Camelize a hyphen-delimited string.  
+   * 驼峰命名法 转换
    */
   // /-(\w)g/  全局匹配   -   
   // \w 匹配字母数字下划线 
@@ -302,19 +312,22 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // toUpperCase 把字符串转换为大写
     // 函数作用  ： 将不是驼峰命名的字符串转换为驼峰命名法  如果最后一个字符是 - 则不会转换最后一个 
     // _ 参数一 ： 匹配到的整体
-    // c 参数二 ： 匹配到的子表达式
+    // c 参数二 ： 匹配到的子表达式 返回匹配  - 后面的第一个字符  转换为大写
     // return   返回要替换的内容
+    // 最后返回一个使用驼峰命名法的字符串   也就是这个函数的作用是将不规则命名的 转换为驼峰命名法
     return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
   });
   
-  /* ----------------------------------------------------------------------------------------------------------------------------- */
+  /* ----------------------------------------------------- 将传入的字符串按照首字母大写存入cache ------------------------------------------------------------------------ */
   /**
    * Capitalize a string.
+   * 将字符串首字母大写
    */
   var capitalize = cached(function (str) {
+    // charAt 返回指定索引的字符串  之后截取字符串后面的凭借
     return str.charAt(0).toUpperCase() + str.slice(1)
   });
-
+  
   /**
    * Hyphenate a camelCase string.
    */
