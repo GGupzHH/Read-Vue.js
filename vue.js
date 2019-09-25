@@ -330,7 +330,10 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   /* ----------------------------------------------------- 将驼峰改为连字符表示 - 存入cache ------------------------------------------------------------------------ */
   /**
    * Hyphenate a camelCase string.
-   * 将驼峰命名改为连接符命名
+   * 将驼峰命名改为连接符命名 
+   * () 打组
+   * \B 只要存在大写A-Z就匹配
+   *  
    */
   var hyphenateRE = /\B([A-Z])/g;
   var hyphenate = cached(function (str) {
