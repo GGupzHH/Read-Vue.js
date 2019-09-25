@@ -339,6 +339,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
   var hyphenate = cached(function (str) {
     //  $1 与正则相匹配的第一个文本   然后在其前面添加  - 
     // toLowerCase 转小写
+    // replace 第二个参数中  $1 是当前匹配的这一项
     return str.replace(hyphenateRE, '-$1').toLowerCase()
   });
 
@@ -348,6 +349,11 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    * since native bind is now performant enough in most browsers.
    * But removing it would mean breaking code that was able to run in
    * PhantomJS 1.x, so this must be kept for backward compatibility.
+   * 简单绑定polyfill，适用于不支持它的环境，
+   *从技术上讲，我们不再需要这个了
+   *因为本机绑定在大多数浏览器中的性能已经足够了。
+   *但是删除它将意味着破坏能够运行的代码
+   *phantomjs 1.x，因此必须保留它以便向后兼容
    */
 
   /* istanbul ignore next */
@@ -360,29 +366,34 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
           : fn.call(ctx, a)
         : fn.call(ctx)
     }
-
+    // fn.length   形参的个数
     boundFn._length = fn.length;
     return boundFn
   }
-
+  // 将传入的fn 指向ctx
   function nativeBind (fn, ctx) {
     return fn.bind(ctx)
   }
-
+  // Function.prototype.bind  是bind  函数
   var bind = Function.prototype.bind
     ? nativeBind
     : polyfillBind;
-
+  /* ----------------------------------------------------- 将类数组转换为实数组 并返回 ------------------------------------------------------------------------ */
   /**
    * Convert an Array-like object to a real Array.
+   * 将类数组对象转换为实数组
+   * 类似arguments这样的类数组
    */
   function toArray (list, start) {
     start = start || 0;
     var i = list.length - start;
+    // 通过构造器的方式去构造一个长度为 i 的数组  数组的每一项是empty
     var ret = new Array(i);
+    // 使用while循环将类数组的每一项赋值给刚才创建的空数组（实数组）
     while (i--) {
       ret[i] = list[i + start];
     }
+    // 之后将新数组返回
     return ret
   }
 
