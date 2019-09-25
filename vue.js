@@ -396,9 +396,13 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     // 之后将新数组返回
     return ret
   }
-
+  /* ----------------------------------------------------- 将指定对象属性添加到新的对象中 ------------------------------------------------------------------------ */
   /**
    * Mix properties into target object.
+   * 将属性添加到目标对象中
+   * extend: 延伸
+   * 将传入的_from 遍历  将里面的属性添加到 to 对象中
+   * for in  遍历对象
    */
   function extend (to, _from) {
     for (var key in _from) {
