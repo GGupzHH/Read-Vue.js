@@ -403,6 +403,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    * extend: 延伸
    * 将传入的_from 遍历  将里面的属性添加到 to 对象中
    * for in  遍历对象
+   * 感觉像一个浅拷贝
    */
   function extend (to, _from) {
     for (var key in _from) {
@@ -410,9 +411,10 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     }
     return to
   }
-
+  /* ----------------------------------------------------- 将指定数组的其中一项遍历保存到一个新对象中----------------------------------------------------------- */
   /**
    * Merge an Array of Objects into a single Object.
+   * 将指定数组遍历  遍历的每一项都是对象 之后调用extend方法将遍历的每一项保存到新的对象中
    */
   function toObject (arr) {
     var res = {};
@@ -423,9 +425,9 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     }
     return res
   }
-
+  /* ----------------------------------------------------- eslint 禁用未使用的变量 ----------------------------------------------------------- */
   /* eslint-disable no-unused-vars */
-
+  // eslint 禁用未使用的变量
   /**
    * Perform no operation.
    * Stubbing args to make Flow happy without leaving useless transpiled code
@@ -449,7 +451,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    * Generate a string containing static keys from compiler modules.
    */
   function genStaticKeys (modules) {
-    return modules.reduce(function (keys, m) {
+    return modules.(function (keys, m) {
       return keys.concat(m.staticKeys || [])
     }, []).join(',')
   }
