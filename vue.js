@@ -435,14 +435,18 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    */
   function noop (a, b, c) {}
 
+  /* ----------------------------------------------------- eslint 总是返回false ----------------------------------------------------------- */
   /**
+   * 总是返回false
    * Always return false.
    */
   var no = function (a, b, c) { return false; };
-
+  
   /* eslint-enable no-unused-vars */
-
+  
+  /* ----------------------------------------------------- eslint 返回相同的值 ----------------------------------------------------------- */
   /**
+   * 返回相同的值----------------------------------------------
    * Return the same value.
    */
   var identity = function (_) { return _; };
@@ -455,8 +459,10 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       return keys.concat(m.staticKeys || [])
     }, []).join(',')
   }
-
+  
+  /* ----------------------------------------------------- 检测两个值是相等 ----------------------------------------------------------- */
   /**
+   * 检测两个值是相等----------------------------------------------
    * Check if two values are loosely equal - that is,
    * if they are plain objects, do they have the same shape?
    */
