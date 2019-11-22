@@ -468,10 +468,12 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
    */
   function looseEqual (a, b) {
     if (a === b) { return true }
+    // ____________________________isObject P113  简单判断是否为对象
     var isObjectA = isObject(a);
     var isObjectB = isObject(b);
     if (isObjectA && isObjectB) {
       try {
+        // 判断是否为数组 返回Boolean
         var isArrayA = Array.isArray(a);
         var isArrayB = Array.isArray(b);
         if (isArrayA && isArrayB) {
