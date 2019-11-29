@@ -625,33 +625,39 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     /**
      * Check if an attribute is reserved so that it cannot be used as a component
      * prop. This is platform-dependent and may be overwritten.
+     * 检查是否保留了属性，以便不能将其用作组件
      */
     isReservedAttr: no,
 
     /**
      * Check if a tag is an unknown element.
+     * 检查标签是否为未知元素。
      * Platform-dependent.
      */
     isUnknownElement: no,
 
     /**
      * Get the namespace of an element
+     * 获取元素的命名空间
      */
     getTagNamespace: noop,
 
     /**
      * Parse the real tag name for the specific platform.
+     * 解析特定平台的真实标记名。
      */
     parsePlatformTagName: identity,
 
     /**
      * Check if an attribute must be bound using property, e.g. value
+     * 检查是否必须使用属性绑定属性，例如值
      * Platform-dependent.
      */
     mustUseProp: no,
 
     /**
      * Perform updates asynchronously. Intended to be used by Vue Test Utils
+     * 异步执行更新。拟由Vue测试实用程序使用
      * This will significantly reduce performance if set to false.
      */
     async: true,
