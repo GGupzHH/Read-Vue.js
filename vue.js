@@ -477,7 +477,9 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
         var isArrayA = Array.isArray(a);
         var isArrayB = Array.isArray(b);
         if (isArrayA && isArrayB) {
+          // Array.every 遍历数组 当return true的时候继续遍历  否者退出循环
           return a.length === b.length && a.every(function (e, i) {
+            // 判断两个数组中的第I 项是否相等   递归判断
             return looseEqual(e, b[i])
           })
         } else if (a instanceof Date && b instanceof Date) {
@@ -502,7 +504,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
       return false
     }
   }
-
+  
+  /* ----------------------------------------------------- 检测一个数组中的某一项和传入的值是否全等 不等则返回-1 ----------------------------------------------------------- */
   /**
    * Return the first index at which a loosely equal value can be
    * found in the array (if value is a plain object, the array must
@@ -514,7 +517,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     }
     return -1
   }
-
+  
+  /* ----------------------------------------------------- 确保只调用一次 并且改变出入函数的this指向 ----------------------------------------------------------- */
   /**
    * Ensure a function is called only once.
    */
@@ -547,7 +551,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     'destroyed',
     'activated',
     'deactivated',
-    'errorCaptured',
+    'errorCaptured',  // 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播
     'serverPrefetch'
   ];
 
@@ -559,7 +563,7 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     /**
      * Option merge strategies (used in core/util/options)
      */
-    // $flow-disable-line
+    // $flow-disable-line 创建一个空对象
     optionMergeStrategies: Object.create(null),
 
     /**
@@ -569,36 +573,43 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
 
     /**
      * Show production mode tip message on boot?
+     * 启动时显示生产模式提示消息？
      */
     productionTip: "development" !== 'production',
 
     /**
      * Whether to enable devtools
+     * 是否启用devtools
      */
     devtools: "development" !== 'production',
 
     /**
      * Whether to record perf
+     * 是否记录性能
      */
     performance: false,
 
     /**
      * Error handler for watcher errors
+     * 观察程序错误的错误处理程序
      */
     errorHandler: null,
 
     /**
      * Warn handler for watcher warns
+     * 观察者警告的警告处理程序
      */
     warnHandler: null,
 
     /**
      * Ignore certain custom elements
+     * 忽略某些自定义元素
      */
     ignoredElements: [],
 
     /**
      * Custom user key aliases for v-on
+     * v-on的自定义用户密钥别名
      */
     // $flow-disable-line
     keyCodes: Object.create(null),
@@ -606,6 +617,8 @@ typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = 
     /**
      * Check if a tag is reserved so that it cannot be registered as a
      * component. This is platform-dependent and may be overwritten.
+     * 检查是否保留了标记，以便不能将其注册为
+     * 组件。这取决于平台，可能会被覆盖。
      */
     isReservedTag: no,
 
